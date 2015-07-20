@@ -3,11 +3,13 @@ import { Grid, Row, Col } from 'react-bootstrap';
 
 class PasswordInput extends React.Component {
   render() {
+    let { goodPasswordPrinciples } = this.props;
+
     return (
             <Grid>
              <Row>
                <PasswordField />
-               <StrengthMeter />
+               <StrengthMeter principles={goodPasswordPrinciples} />
              </Row>
             </Grid>
            );
@@ -36,7 +38,16 @@ class PasswordField extends React.Component {
 
 class StrengthMeter extends React.Component {
   render() {
-    return (<Col md={4} />);
+    let { principles } = this.props;
+
+    return (<Col md={4}>
+              <h5>A good password is:</h5>
+              <ul>
+                {principles.map(
+                  principle => <li><small>{principle.label}</small></li>
+                )}
+              </ul>
+            </Col>);
   }
 }
 
