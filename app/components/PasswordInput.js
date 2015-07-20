@@ -45,6 +45,18 @@ class PasswordField extends React.Component {
 }
 
 class StrengthMeter extends React.Component {
+  render() {
+    return (<Col md={4}>
+              <Panel>
+                <PrinciplesProgress {...this.props} />
+                <h5>A good password is:</h5>
+                <PrinciplesList {...this.props} />
+              </Panel>
+            </Col>);
+  }
+}
+
+class PrinciplesProgress extends React.Component {
   constructor(props) {
     super(props);
 
@@ -74,13 +86,8 @@ class StrengthMeter extends React.Component {
   }
 
   render() {
-    return (<Col md={4}>
-              <Panel>
-                <ProgressBar now={this.satisfiedPrinciplesPercent()} bsStyle={this.progressBarStyle()} />
-                <h5>A good password is:</h5>
-                <PrinciplesList {...this.props} />
-              </Panel>
-            </Col>);
+    return (<ProgressBar now={this.satisfiedPrinciplesPercent()}
+                         bsStyle={this.progressBarStyle()} />);
   }
 }
 
