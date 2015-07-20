@@ -1,5 +1,5 @@
 import React from 'react/addons';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col, Panel } from 'react-bootstrap';
 import classNames from 'classnames';
 
 class PasswordInput extends React.Component {
@@ -71,14 +71,16 @@ class StrengthMeter extends React.Component {
     let { principles } = this.props;
 
     return (<Col md={4}>
-              <h5>A good password is:</h5>
-              <ul>
-                {principles.map(principle =>
-                  <li className={this.principleClasses(principle)}>
-                    <small>{principle.label}</small>
-                  </li>
-                )}
-              </ul>
+              <Panel>
+                <h5>A good password is:</h5>
+                <ul>
+                  {principles.map(principle =>
+                    <li className={this.principleClasses(principle)}>
+                      <small>{principle.label}</small>
+                    </li>
+                  )}
+                </ul>
+              </Panel>
             </Col>);
   }
 }
