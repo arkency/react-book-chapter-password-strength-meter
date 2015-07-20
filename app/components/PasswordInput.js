@@ -47,6 +47,25 @@ class PasswordField extends React.Component {
 class StrengthMeter extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  satisfiedPrinciplesPercent() {
+
+  }
+
+  render() {
+    return (<Col md={4}>
+              <Panel>
+                <h5>A good password is:</h5>
+                <PrinciplesList {...this.props} />
+              </Panel>
+            </Col>);
+  }
+}
+
+class PrinciplesList extends React.Component {
+  constructor(props) {
+    super(props);
 
     this.satisfiesPrinciple = this.satisfiesPrinciple.bind(this);
     this.principleClasses = this.principleClasses.bind(this);
@@ -70,18 +89,15 @@ class StrengthMeter extends React.Component {
   render() {
     let { principles } = this.props;
 
-    return (<Col md={4}>
-              <Panel>
-                <h5>A good password is:</h5>
-                <ul>
-                  {principles.map(principle =>
-                    <li className={this.principleClasses(principle)}>
-                      <small>{principle.label}</small>
-                    </li>
-                  )}
-                </ul>
-              </Panel>
-            </Col>);
+    return (
+      <ul>
+        {principles.map(principle =>
+          <li className={this.principleClasses(principle)}>
+            <small>{principle.label}</small>
+          </li>
+        )}
+      </ul>
+    );
   }
 }
 
