@@ -51,6 +51,28 @@ class PasswordField extends React.Component {
     super(props);
 
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.satisfiedPrinciplesPercent = this.satisfiedPrinciplesPercent.bind(this);
+    this.inputStyle = this.inputStyle.bind(this);
+  }
+
+  inputStyle() {
+    let percentage = this.satisfiedPrinciplesPercent();
+    if (percentage <= 33) { return 'error'; }
+    if (percentage > 67) { return 'success'; }
+    return 'warning';
+  }
+
+  satisfiedPrinciplesPercent() {
+    let { principles, password } = this.props;
+
+    let principleResults = principles.map(principle =>
+                                            principle.predicate(password));
+
+    let passedPrinciples = principleResults.reduce(
+                             (accu, result) => accu + (result ? 1 : 0),
+                             0);
+
+    return Math.round((passedPrinciples / principleResults.length) * 100.0);
   }
 
   handlePasswordChange(ev) {
@@ -67,6 +89,7 @@ class PasswordField extends React.Component {
                 value={password}
                 label='Password'
                 onChange={this.handlePasswordChange}
+                bsStyle={this.inputStyle()}
                 hasFeedback
               />
             </Col>);
