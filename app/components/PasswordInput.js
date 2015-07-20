@@ -6,6 +6,12 @@ class PasswordInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = { password: '' };
+
+    this.changePassword = this.changePassword.bind(this);
+  }
+
+  changePassword(password) {
+    this.setState({ password });
   }
 
   render() {
@@ -15,7 +21,9 @@ class PasswordInput extends React.Component {
     return (
             <Grid>
              <Row>
-               <PasswordField />
+               <PasswordField password={password}
+                              onPasswordChange={this.changePassword}
+                              principles={goodPasswordPrinciples} />
                <StrengthMeter password={password}
                               principles={goodPasswordPrinciples} />
              </Row>
