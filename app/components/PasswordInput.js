@@ -44,6 +44,18 @@ class PasswordField extends React.Component {
 }
 
 class StrengthMeter extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.satisfiesPrinciple = this.satisfiesPrinciple.bind(this);
+  }
+
+  satisfiesPrinciple(principle) {
+    let { password } = this.props;
+
+    return principle.predicate(password);
+  }
+
   render() {
     let { principles } = this.props;
 
