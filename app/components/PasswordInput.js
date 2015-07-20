@@ -47,6 +47,17 @@ PasswordInput.defaultProps = {
 };
 
 class PasswordField extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+  }
+
+  handlePasswordChange(ev) {
+    let { onPasswordChange } = this.props;
+    onPasswordChange(ev.target.value);
+  }
+
   render() {
     let { password } = this.props;
 
@@ -55,6 +66,7 @@ class PasswordField extends React.Component {
                 type='password'
                 value={password}
                 label='Password'
+                onChange={this.handlePasswordChange}
                 hasFeedback
               />
             </Col>);
