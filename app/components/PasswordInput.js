@@ -1,5 +1,5 @@
 import React from 'react/addons';
-import { Grid, Row, Col, Panel } from 'react-bootstrap';
+import { Grid, Row, Col, Panel, ProgressBar } from 'react-bootstrap';
 import classNames from 'classnames';
 
 class PasswordInput extends React.Component {
@@ -30,7 +30,7 @@ const DIGIT_REGEX = /[0-9]/;
 PasswordInput.defaultProps = {
   goodPasswordPrinciples: [
     { label: "6+ characters",
-      predicate: (input) => input.length > 6 },
+      predicate: (input) => input.length >= 6 },
     { label: "with at least one digit",
       predicate: (input) => input.match(DIGIT_REGEX) !== null },
     { label: "with at least one special character",
@@ -47,15 +47,27 @@ class PasswordField extends React.Component {
 class StrengthMeter extends React.Component {
   constructor(props) {
     super(props);
+
+    this.satisfiedPrinciplesPercent = this.satisfiedPrinciplesPercent.bind(this);
   }
 
   satisfiedPrinciplesPercent() {
+    let { principles, password } = this.props;
 
+    let principleResults = principles.map(principle =>
+                                            principle.predicate(password));
+
+    let passedPrinciples = principleResults.reduce(
+                             (accu, result) => accu + (result ? 1 : 0),
+                             0);
+
+    return Math.round((passedPrinciples / principleResults.length) * 100.0);
   }
 
   render() {
     return (<Col md={4}>
               <Panel>
+                <ProgressBar now={this.satisfiedPrinciplesPercent()} />
                 <h5>A good password is:</h5>
                 <PrinciplesList {...this.props} />
               </Panel>
