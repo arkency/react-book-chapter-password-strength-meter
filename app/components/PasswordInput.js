@@ -1,5 +1,5 @@
 import React from 'react/addons';
-import { Grid, Row, Col, Panel, ProgressBar } from 'react-bootstrap';
+import { Grid, Row, Col, Panel, ProgressBar, Input } from 'react-bootstrap';
 import classNames from 'classnames';
 
 class PasswordInput extends React.Component {
@@ -48,7 +48,16 @@ PasswordInput.defaultProps = {
 
 class PasswordField extends React.Component {
   render() {
-    return (<Col md={8} />);
+    let { password } = this.props;
+
+    return (<Col md={8}>
+              <Input
+                type='password'
+                value={password}
+                label='Password'
+                hasFeedback
+              />
+            </Col>);
   }
 }
 
