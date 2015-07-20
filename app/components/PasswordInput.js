@@ -2,14 +2,21 @@ import React from 'react/addons';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 class PasswordInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { password: '' };
+  }
+
   render() {
     let { goodPasswordPrinciples } = this.props;
+    let { password } = this.state;
 
     return (
             <Grid>
              <Row>
                <PasswordField />
-               <StrengthMeter principles={goodPasswordPrinciples} />
+               <StrengthMeter password={password}
+                              principles={goodPasswordPrinciples} />
              </Row>
             </Grid>
            );
