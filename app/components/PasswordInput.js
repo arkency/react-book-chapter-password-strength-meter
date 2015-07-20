@@ -48,7 +48,16 @@ class StrengthMeter extends React.Component {
   constructor(props) {
     super(props);
 
+    this.progressBarStyle = this.progressBarStyle.bind(this);
     this.satisfiedPrinciplesPercent = this.satisfiedPrinciplesPercent.bind(this);
+  }
+
+  progressBarStyle() {
+    let percentage = this.satisfiedPrinciplesPercent();
+
+    if (percentage <= 33) { return 'danger'; }
+    if (percentage > 67) { return 'success'; }
+    return 'warning';
   }
 
   satisfiedPrinciplesPercent() {
@@ -67,7 +76,7 @@ class StrengthMeter extends React.Component {
   render() {
     return (<Col md={4}>
               <Panel>
-                <ProgressBar now={this.satisfiedPrinciplesPercent()} />
+                <ProgressBar now={this.satisfiedPrinciplesPercent()} bsStyle={this.progressBarStyle()} />
                 <h5>A good password is:</h5>
                 <PrinciplesList {...this.props} />
               </Panel>
