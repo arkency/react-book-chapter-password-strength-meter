@@ -1,7 +1,7 @@
 import '../node_modules/bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PasswordInput from './components/PasswordInputSnapshot';
+import PasswordInput from './components/PasswordInput';
 
 const APP_ROOT = document.createElement("div");
 document.body.appendChild(APP_ROOT);
