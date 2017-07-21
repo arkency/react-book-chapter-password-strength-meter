@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Row, Col, Panel, ProgressBar, Input } from 'react-bootstrap';
+import { Grid, Row, Col, Panel, ProgressBar, FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
 import classNames from 'classnames';
 
 class PasswordInput extends React.Component {
@@ -84,14 +84,15 @@ class PasswordField extends React.Component {
     let { password } = this.props;
 
     return (<Col md={8}>
-              <Input
-                type='password'
-                value={password}
-                label='Password'
-                onChange={this.handlePasswordChange}
-                bsStyle={this.inputStyle()}
-                hasFeedback
-              />
+              <FormGroup validationState={this.inputStyle()}>
+                <ControlLabel>Password</ControlLabel>
+                <FormControl
+                  type='password'
+                  value={password}
+                  onChange={this.handlePasswordChange}
+                />
+                <FormControl.Feedback />
+              </FormGroup>
             </Col>);
   }
 }
