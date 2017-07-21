@@ -120,7 +120,7 @@ class PrinciplesList extends React.Component {
     return (
       <ul>
         {principles.map(principle =>
-        <li className={this.principleClass(principle)}>
+        <li key={principle.label} className={this.principleClass(principle)}>
           <small>
             {principle.label}
           </small>
