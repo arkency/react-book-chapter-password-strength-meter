@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import { Grid, Row, Col, Panel, ProgressBar, Input } from 'react-bootstrap';
 import classNames from 'classnames';
 
