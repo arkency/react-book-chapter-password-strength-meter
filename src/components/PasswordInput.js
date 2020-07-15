@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Grid,
   Row,
@@ -11,42 +11,32 @@ import {
 } from "react-bootstrap";
 import classNames from "classnames";
 
-class PasswordInput extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { password: "" };
+function PasswordInput(props) {
+  const [password, updatePassword] = useState('');
 
-    this.changePassword = this.changePassword.bind(this);
-  }
+  const changePassword = password => updatePassword(password);
 
-  changePassword(password) {
-    this.setState({ password });
-  }
+  const { goodPasswordPrinciples } = props;
 
-  render() {
-    let { goodPasswordPrinciples } = this.props;
-    let { password } = this.state;
-
-    return (
-      <Grid>
-        <Row>
-          <Col md={8}>
-            <PasswordField
-              password={password}
-              onPasswordChange={this.changePassword}
-              principles={goodPasswordPrinciples}
-            />
-          </Col>
-          <Col md={4}>
-            <StrengthMeter
-              password={password}
-              principles={goodPasswordPrinciples}
-            />
-          </Col>
-        </Row>
-      </Grid>
-    );
-  }
+  return (
+    <Grid>
+      <Row>
+        <Col md={8}>
+          <PasswordField
+            password={password}
+            onPasswordChange={changePassword}
+            principles={goodPasswordPrinciples}
+          />
+        </Col>
+        <Col md={4}>
+          <StrengthMeter
+            password={password}
+            principles={goodPasswordPrinciples}
+          />
+        </Col>
+      </Row>
+    </Grid>
+  );
 }
 
 const SPECIAL_CHARS_REGEX = /[^A-Za-z0-9]/;
@@ -69,33 +59,29 @@ PasswordInput.defaultProps = {
   ]
 };
 
-class StrengthMeter extends React.Component {
-  render() {
-    return (
-      <Panel>
-        <PrinciplesProgress {...this.props} />
-        <h5>A good password is:</h5>
-        <PrinciplesList {...this.props} />
-      </Panel>
-    );
-  }
+function StrengthMeter(props) {
+  return (
+    <Panel>
+      <PrinciplesProgress {...props} />
+      <h5>A good password is:</h5>
+      <PrinciplesList {...props} />
+    </Panel>
+  );
 }
 
-class PrinciplesProgress extends React.Component {
-  satisfiedPercent() {
-    let { principles, password } = this.props;
-
-    let satisfiedCount = principles
+function PrinciplesProgress(props) {
+  const satisfiedPercent = () => {
+    const { principles, password } = props;
+    const satisfiedCount = principles
       .map(p => p.predicate(password))
       .reduce((count, satisfied) => count + (satisfied ? 1 : 0), 0);
-
-    let principlesCount = principles.length;
+    const principlesCount = principles.length;
 
     return satisfiedCount / principlesCount * 100.0;
   }
 
-  progressColor() {
-    let percentage = this.satisfiedPercent();
+  const progressColor = () => {
+    const percentage = satisfiedPercent();
 
     return classNames({
       danger: percentage < 33.4,
@@ -104,74 +90,63 @@ class PrinciplesProgress extends React.Component {
     });
   }
 
-  render() {
-    return (
-      <ProgressBar
-        now={this.satisfiedPercent()}
-        bsStyle={this.progressColor()}
-      />
-    );
-  }
+  return (
+    <ProgressBar
+      now={satisfiedPercent()}
+      bsStyle={progressColor()}
+    />
+  );
 }
 
-class PrinciplesList extends React.Component {
-  principleSatisfied(principle) {
-    let { password } = this.props;
-
+function PrinciplesList(props) {
+  const principleSatisfied = (principle) => {
+    const { password } = props;
     return principle.predicate(password);
   }
 
-  principleClass(principle) {
-    let satisfied = this.principleSatisfied(principle);
-
+  const principleClass = (principle) => {
+    const satisfied = principleSatisfied(principle);
     return classNames({
       ["text-success"]: satisfied,
       ["text-danger"]: !satisfied
     });
   }
 
-  render() {
-    let { principles } = this.props;
+  const { principles } = props;
 
-    return (
-      <ul>
-        {principles.map(principle =>
-          <li key={principle.label} className={this.principleClass(principle)}>
-            <small>
-              {principle.label}
-            </small>
-          </li>
-        )}
-      </ul>
-    );
-  }
+  return (
+    <ul>
+      {principles.map(principle =>
+        <li key={principle.label} className={principleClass(principle)}>
+          <small>
+            {principle.label}
+          </small>
+        </li>
+      )}
+    </ul>
+  );
 }
 
-class PasswordField extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-  }
-
-  handlePasswordChange(ev) {
-    let { onPasswordChange } = this.props;
+function PasswordField(props) {
+  const handlePasswordChange = ev => {
+    let { onPasswordChange } = props;
     onPasswordChange(ev.target.value);
   }
 
-  satisfiedPercent() {
-    let { principles, password } = this.props;
+  const satisfiedPercent = () => {
+    const { principles, password } = props;
 
-    let satisfiedCount = principles
+    const satisfiedCount = principles
       .map(p => p.predicate(password))
       .reduce((count, satisfied) => count + (satisfied ? 1 : 0), 0);
 
-    let principlesCount = principles.length;
+    const principlesCount = principles.length;
 
     return satisfiedCount / principlesCount * 100.0;
   }
 
-  inputColor() {
-    let percentage = this.satisfiedPercent();
+  const inputColor = () => {
+    const percentage = satisfiedPercent();
 
     return classNames({
       error: percentage < 33.4,
@@ -180,21 +155,19 @@ class PasswordField extends React.Component {
     });
   }
 
-  render() {
-    let { password } = this.props;
+  const { password } = props;
 
-    return (
-      <FormGroup validationState={this.inputColor()}>
-        <ControlLabel>Password</ControlLabel>
-        <FormControl
-          type="password"
-          value={password}
-          onChange={this.handlePasswordChange}
-        />
-        <FormControl.Feedback />
-      </FormGroup>
-    );
-  }
+  return (
+    <FormGroup validationState={inputColor()}>
+      <ControlLabel>Password</ControlLabel>
+      <FormControl
+        type="password"
+        value={password}
+        onChange={handlePasswordChange}
+      />
+      <FormControl.Feedback />
+    </FormGroup>
+  );
 }
 
 export default PasswordInput;
