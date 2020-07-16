@@ -14,7 +14,9 @@ import classNames from "classnames";
 function PasswordInput(props) {
   const [password, updatePassword] = useState('');
 
-  const changePassword = password => updatePassword(password);
+  function changePassword(password) {
+    updatePassword(password);
+  }
 
   const { goodPasswordPrinciples } = props;
 
@@ -70,7 +72,7 @@ function StrengthMeter(props) {
 }
 
 function PrinciplesProgress(props) {
-  const satisfiedPercent = () => {
+  function satisfiedPercent() {
     const { principles, password } = props;
     const satisfiedCount = principles
       .map(p => p.predicate(password))
@@ -80,7 +82,7 @@ function PrinciplesProgress(props) {
     return satisfiedCount / principlesCount * 100.0;
   }
 
-  const progressColor = () => {
+  function progressColor() {
     const percentage = satisfiedPercent();
 
     return classNames({
@@ -99,12 +101,12 @@ function PrinciplesProgress(props) {
 }
 
 function PrinciplesList(props) {
-  const principleSatisfied = (principle) => {
+  function principleSatisfied(principle) {
     const { password } = props;
     return principle.predicate(password);
   }
 
-  const principleClass = (principle) => {
+  function principleClass(principle) {
     const satisfied = principleSatisfied(principle);
     return classNames({
       ["text-success"]: satisfied,
@@ -128,12 +130,12 @@ function PrinciplesList(props) {
 }
 
 function PasswordField(props) {
-  const handlePasswordChange = ev => {
-    let { onPasswordChange } = props;
+  function handlePasswordChange(ev) {
+    const { onPasswordChange } = props;
     onPasswordChange(ev.target.value);
   }
 
-  const satisfiedPercent = () => {
+  function satisfiedPercent() {
     const { principles, password } = props;
 
     const satisfiedCount = principles
@@ -145,7 +147,7 @@ function PasswordField(props) {
     return satisfiedCount / principlesCount * 100.0;
   }
 
-  const inputColor = () => {
+  function inputColor() {
     const percentage = satisfiedPercent();
 
     return classNames({
